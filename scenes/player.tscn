@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://8fdgnkoupimc"]
+
+[ext_resource type="Script" uid="uid://c85t61yf7fj" path="res://scripts/player.gd" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://c352nlwcgy0xs" path="res://scripts/camera.gd" id="2_g2els"]
+[ext_resource type="PackedScene" uid="uid://dhuswl7bn11q3" path="res://scenes/player_model.tscn" id="2_tuyoq"]
+[ext_resource type="PackedScene" uid="uid://c6pfqa70l7b2m" path="res://scenes/stamina_bar.tscn" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://dcngkbrv0pmr5" path="res://scripts/player_ray_cast.gd" id="4_qlg0r"]
+[ext_resource type="PackedScene" uid="uid://nq8cnks4mys2" path="res://scenes/flashlight.tscn" id="5_qlg0r"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
+height = 2.1638184
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3vyb7"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_3vyb7")
+metadata/is_holding_flashlight = true
+
+[node name="PlayerModel" parent="." instance=ExtResource("2_tuyoq")]
+unique_name_in_owner = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06604, 0)
+shape = SubResource("CapsuleShape3D_u8vuu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("CapsuleMesh_3vyb7")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.877188, -0.19419864)
+script = ExtResource("2_g2els")
+
+[node name="PlayerRayCast" type="RayCast3D" parent="Head"]
+unique_name_in_owner = true
+transform = Transform3D(2, 0, 0, 0, -8.742278e-08, -2, 0, 2, -8.742278e-08, 0, 0, 0)
+visible = false
+script = ExtResource("4_qlg0r")
+
+[node name="MainCamera" type="Camera3D" parent="Head"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.063182354, -0.2875722)
+cull_mask = 524287
+
+[node name="Flashlight" parent="Head/MainCamera" instance=ExtResource("5_qlg0r")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.48535264, -0.53728175, -0.18287337)
+visible = false
+
+[node name="StaminaBar" parent="." instance=ExtResource("4_dqkch")]
+unique_name_in_owner = true
+visible = false
+
+[connection signal="idle" from="." to="PlayerModel/AnimationPlayer" method="_on_player_idle"]
+[connection signal="running" from="." to="StaminaBar" method="_on_player_running"]
+[connection signal="stop_running" from="." to="StaminaBar" method="_on_player_stop_running"]
+[connection signal="walking" from="." to="PlayerModel/AnimationPlayer" method="_on_player_walking"]
+
+[editable path="PlayerModel"]

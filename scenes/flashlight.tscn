@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://nq8cnks4mys2"]
+
+[ext_resource type="Script" uid="uid://ckaoxvniydw30" path="res://scripts/flashlight.gd" id="1_0ywi5"]
+[ext_resource type="PackedScene" uid="uid://dgoixucklmgei" path="res://scenes/models/flashlight/scene.gltf" id="1_lkaa1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ywi5"]
+resource_name = "Material"
+cull_mode = 2
+albedo_color = Color(0.08227101, 0.08227101, 0.08227101, 1)
+roughness = 0.99880666
+z_clip_scale = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bh8a8"]
+resource_name = "Material.002"
+cull_mode = 2
+albedo_color = Color(0.41771787, 0.41771787, 0.41771787, 1)
+roughness = 0.967437
+emission_enabled = true
+emission = Color(0.9930893, 1, 0.7848091, 1)
+emission_energy_multiplier = 10.0
+z_clip_scale = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bis5n"]
+resource_name = "Material.001"
+cull_mode = 2
+albedo_color = Color(0.68353426, 0.04813709, 0.11438863, 1)
+roughness = 0.9789977
+z_clip_scale = 0.8
+
+[node name="Flashlight" type="Node3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+script = ExtResource("1_0ywi5")
+
+[node name="FlashlightModel" type="Node3D" parent="."]
+transform = Transform3D(-2.1855694e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.1855694e-08, 0, 0, 0)
+
+[node name="Sketchfab_Scene" parent="FlashlightModel" instance=ExtResource("1_lkaa1")]
+
+[node name="Cylinder_Material_0" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder" index="0"]
+material_override = SubResource("StandardMaterial3D_0ywi5")
+
+[node name="Cylinder_Material_002_0" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder" index="1"]
+material_override = SubResource("StandardMaterial3D_bh8a8")
+
+[node name="Cylinder_Material_001_0" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder" index="2"]
+material_override = SubResource("StandardMaterial3D_bis5n")
+
+[node name="FlashLightBeam" type="SpotLight3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1460681, -8.917475)
+spot_range = 10.0
+spot_angle = 20.0
+
+[editable path="FlashlightModel/Sketchfab_Scene"]
