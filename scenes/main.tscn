@@ -1,19 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://b45bfmeahqdni"]
+[gd_scene load_steps=6 format=3 uid="uid://b45bfmeahqdni"]
 
 [ext_resource type="PackedScene" uid="uid://qcx012607puo" path="res://scenes/floor.tscn" id="1_o5qli"]
-[ext_resource type="PackedScene" uid="uid://dafbud42wi5pb" path="res://scenes/wall.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://8fdgnkoupimc" path="res://scenes/player.tscn" id="3_sugp2"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-
-[sub_resource type="Sky" id="Sky_sugp2"]
-sky_material = SubResource("ProceduralSkyMaterial_0wfyh")
+[ext_resource type="Script" uid="uid://1ecq83xo1vhl" path="res://scripts/fps_counter.gd" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://yv42vc4oelu4" path="res://scenes/level.tscn" id="4_tbgi4"]
 
 [sub_resource type="Environment" id="Environment_jyhfs"]
-background_mode = 2
-sky = SubResource("Sky_sugp2")
+background_color = Color(1, 1, 1, 1)
 tonemap_mode = 2
 glow_enabled = true
 volumetric_fog_enabled = true
@@ -32,13 +25,16 @@ light_energy = 0.1
 shadow_enabled = true
 
 [node name="Floor" parent="." instance=ExtResource("1_o5qli")]
+visible = false
 
-[node name="Wall3" parent="." instance=ExtResource("2_0wfyh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8045521, 2.1000001, 8.545178)
-collision_layer = 3
-collision_mask = 3
+[node name="FPSCounter" type="CanvasLayer" parent="."]
+script = ExtResource("4_jyhfs")
+
+[node name="Label" type="Label" parent="FPSCounter"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Level" parent="." instance=ExtResource("4_tbgi4")]
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.7580211, 1.286458)
-
-[connection signal="running" from="Player" to="Player/PlayerModel/AnimationPlayer" method="_on_player_running"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -28.73784, -0.12029785, -121.03211)

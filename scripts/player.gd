@@ -1,8 +1,8 @@
 extends CharacterBody3D
 
 # Movement
-const WALK_SPEED := 3.0
-const SPRINT_SPEED := 4.5
+const WALK_SPEED := 8
+const SPRINT_SPEED := 2.5
 const JUMP_VELOCITY := 3.0
 const AIR_CONTROL := 0.3
 
@@ -46,7 +46,6 @@ func _physics_process(delta: float) -> void:
 		stamina = max(stamina, 0)
 		regen_timer = STAMINA_COOLDOWN
 		emit_signal("running", stamina)
-		
 	else:
 		player_speed = WALK_SPEED
 		
@@ -64,6 +63,7 @@ func _physics_process(delta: float) -> void:
 			var regen_rate := STAMINA_REGEN_IDLE if direction == Vector3.ZERO else STAMINA_REGEN_WALK
 			stamina += regen_rate * delta
 			stamina = min(stamina, MAX_STAMINA)
+			emit_signal("stop_running", stamina)
 
 	# Movement
 	if direction:

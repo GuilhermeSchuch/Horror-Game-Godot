@@ -1,14 +1,133 @@
-[gd_scene load_steps=3 format=3 uid="uid://qcx012607puo"]
+[gd_scene load_steps=9 format=3 uid="uid://qcx012607puo"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_c41w6"]
+[ext_resource type="Texture2D" uid="uid://80106yeymty4" path="res://textures/grass/grass1.png" id="1_ukw5w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c41w6"]
+albedo_texture = ExtResource("1_ukw5w")
+metallic = 1.0
+uv1_scale = Vector3(20, 20, 20)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ukw5w"]
+material = SubResource("StandardMaterial3D_c41w6")
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c41w6"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kuqtn"]
+size = Vector3(4, 0.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_whr1e"]
+size = Vector3(1, 1.5, 8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3lc0u"]
+size = Vector3(1, 1, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7525o"]
+size = Vector3(1, 1, 4)
 
 [node name="Floor" type="StaticBody3D"]
-transform = Transform3D(30, 0, 0, 0, 1, 0, 0, 0, 30, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_ukw5w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_c41w6")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_ukw5w")
+[node name="House" type="Node3D" parent="."]
+
+[node name="FrontStairs" type="Node3D" parent="House"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Steps" type="Node3D" parent="House/FrontStairs"]
+
+[node name="Step" type="StaticBody3D" parent="House/FrontStairs/Steps"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="House/FrontStairs/Steps/Step"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21441734, 0)
+mesh = SubResource("BoxMesh_kuqtn")
+
+[node name="Step2" type="StaticBody3D" parent="House/FrontStairs/Steps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.30294752, -0.9933038)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="House/FrontStairs/Steps/Step2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21441734, 0)
+mesh = SubResource("BoxMesh_kuqtn")
+
+[node name="Step3" type="StaticBody3D" parent="House/FrontStairs/Steps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6532872, -1.9862267)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="House/FrontStairs/Steps/Step3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21441734, 0)
+mesh = SubResource("BoxMesh_kuqtn")
+skeleton = NodePath("../../Step2")
+
+[node name="Step4" type="StaticBody3D" parent="House/FrontStairs/Steps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9553385, -2.976087)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="House/FrontStairs/Steps/Step4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21441734, 0)
+mesh = SubResource("BoxMesh_kuqtn")
+skeleton = NodePath("../../Step2")
+
+[node name="Step5" type="StaticBody3D" parent="House/FrontStairs/Steps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2571843, -3.9718575)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="House/FrontStairs/Steps/Step5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21441734, 0)
+mesh = SubResource("BoxMesh_kuqtn")
+skeleton = NodePath("../../Step2")
+
+[node name="Step6" type="StaticBody3D" parent="House/FrontStairs/Steps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6127653, -4.968089)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="House/FrontStairs/Steps/Step6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21441734, 0)
+mesh = SubResource("BoxMesh_kuqtn")
+skeleton = NodePath("../../Step2")
+
+[node name="Step7" type="StaticBody3D" parent="House/FrontStairs/Steps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9392362, -5.968423)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="House/FrontStairs/Steps/Step7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21441734, 0)
+mesh = SubResource("BoxMesh_kuqtn")
+skeleton = NodePath("../../Step2")
+
+[node name="Step8" type="StaticBody3D" parent="House/FrontStairs/Steps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2471023, -6.964512)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="House/FrontStairs/Steps/Step8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21441734, 0)
+mesh = SubResource("BoxMesh_kuqtn")
+skeleton = NodePath("../../Step2")
+
+[node name="RailLeft" type="Node3D" parent="House/FrontStairs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5068746, 0, -0.0005837083)
+
+[node name="BottomWall" type="MeshInstance3D" parent="House/FrontStairs/RailLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2236538, -3.1584945)
+mesh = SubResource("BoxMesh_whr1e")
+
+[node name="MiddleWall" type="MeshInstance3D" parent="House/FrontStairs/RailLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4713457, -4.112795)
+mesh = SubResource("BoxMesh_3lc0u")
+
+[node name="TopWall" type="MeshInstance3D" parent="House/FrontStairs/RailLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.433801, -5.1137486)
+mesh = SubResource("BoxMesh_7525o")
+
+[node name="RailRight" type="Node3D" parent="House/FrontStairs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4899864, 0, -0.0011674166)
+
+[node name="BottomWall" type="MeshInstance3D" parent="House/FrontStairs/RailRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2236538, -3.1584945)
+mesh = SubResource("BoxMesh_whr1e")
+
+[node name="MiddleWall" type="MeshInstance3D" parent="House/FrontStairs/RailRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4713457, -4.112795)
+mesh = SubResource("BoxMesh_3lc0u")
+
+[node name="TopWall" type="MeshInstance3D" parent="House/FrontStairs/RailRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.433801, -5.1137486)
+mesh = SubResource("BoxMesh_7525o")
