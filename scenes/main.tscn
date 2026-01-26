@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b45bfmeahqdni"]
+[gd_scene load_steps=8 format=3 uid="uid://b45bfmeahqdni"]
 
 [ext_resource type="PackedScene" uid="uid://qcx012607puo" path="res://scenes/floor.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://8fdgnkoupimc" path="res://scenes/player.tscn" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://1ecq83xo1vhl" path="res://scripts/fps_counter.gd" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://yv42vc4oelu4" path="res://scenes/level.tscn" id="4_tbgi4"]
+[ext_resource type="Shader" uid="uid://n31b3gfmg006" path="res://shaders/main.gdshader" id="5_tbgi4"]
 
 [sub_resource type="Environment" id="Environment_jyhfs"]
 background_color = Color(1, 1, 1, 1)
@@ -12,6 +13,17 @@ glow_enabled = true
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.2
 volumetric_fog_temporal_reprojection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tbgi4"]
+shader = ExtResource("5_tbgi4")
+shader_parameter/color_levels = 14.0
+shader_parameter/chromatic_aberration = 0.008
+shader_parameter/blur_amount = 1.0
+shader_parameter/brightness = 1.2
+shader_parameter/saturation = 1.0
+shader_parameter/color_offset_multiplier = 0.004
+shader_parameter/black_offset_multiplier = 0.1
+shader_parameter/color_offset = 0.005
 
 [node name="Main" type="Node3D"]
 
@@ -37,4 +49,13 @@ offset_bottom = 23.0
 [node name="Level" parent="." instance=ExtResource("4_tbgi4")]
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -28.73784, -0.12029785, -121.03211)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -35.377213, 0.4885918, -129.45284)
+
+[node name="Shader" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Shader"]
+material = SubResource("ShaderMaterial_tbgi4")
+offset_right = 2532.0
+offset_bottom = 1665.0

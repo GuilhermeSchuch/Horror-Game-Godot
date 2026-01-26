@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://8fdgnkoupimc"]
+[gd_scene load_steps=7 format=3 uid="uid://8fdgnkoupimc"]
 
 [ext_resource type="Script" uid="uid://c85t61yf7fj" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://c352nlwcgy0xs" path="res://scripts/camera.gd" id="2_g2els"]
@@ -7,9 +7,8 @@
 [ext_resource type="Script" uid="uid://dcngkbrv0pmr5" path="res://scripts/player_ray_cast.gd" id="4_qlg0r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
+radius = 0.44677734
 height = 2.1638184
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_3vyb7"]
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -180,10 +179,6 @@ transform = Transform3D(-0.48853004, -0.17112911, 0.85560125, 0.23896281, -0.969
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06604, 0)
 shape = SubResource("CapsuleShape3D_u8vuu")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("CapsuleMesh_3vyb7")
-
 [node name="PlayerHead" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.877188, -0.19419864)
@@ -198,7 +193,7 @@ script = ExtResource("4_qlg0r")
 [node name="CameraPivot" type="Node3D" parent="PlayerHead"]
 
 [node name="SpringArm3D" type="SpringArm3D" parent="PlayerHead/CameraPivot"]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -0.18795171)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0.035692453, -0.007977873)
 spring_length = 0.0
 
 [node name="MainCamera" type="Camera3D" parent="PlayerHead/CameraPivot/SpringArm3D"]
@@ -216,6 +211,14 @@ offset_top = -35.0
 offset_right = 114.0
 offset_bottom = -8.0
 grow_vertical = 0
+
+[node name="DynamicStepsFX" type="Node3D" parent="."]
+
+[node name="FootstepRayCast" type="RayCast3D" parent="DynamicStepsFX"]
+unique_name_in_owner = true
+
+[node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="DynamicStepsFX"]
+unique_name_in_owner = true
 
 [connection signal="idle" from="." to="PlayerModel/AnimationPlayer" method="_on_player_idle"]
 [connection signal="running" from="." to="PlayerModel/AnimationPlayer" method="_on_player_running"]
