@@ -7,11 +7,13 @@
 [ext_resource type="Shader" uid="uid://n31b3gfmg006" path="res://shaders/main.gdshader" id="5_tbgi4"]
 
 [sub_resource type="Environment" id="Environment_jyhfs"]
+background_mode = 2
 background_color = Color(1, 1, 1, 1)
-tonemap_mode = 2
+background_energy_multiplier = 0.2
+sdfgi_enabled = true
 glow_enabled = true
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.2
+volumetric_fog_density = 0.01
 volumetric_fog_temporal_reprojection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tbgi4"]
@@ -30,14 +32,8 @@ shader_parameter/color_offset = 0.005
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jyhfs")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.9015382, -0.21634978, 0.37472877, -0.4326995, -0.45076916, 0.780755, 0, -0.8660254, -0.50000006, 0, 7.692875, -10.104013)
-visible = false
-light_energy = 0.1
-shadow_enabled = true
-
 [node name="Floor" parent="." instance=ExtResource("1_o5qli")]
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 31.114082)
 
 [node name="FPSCounter" type="CanvasLayer" parent="."]
 script = ExtResource("4_jyhfs")
@@ -49,7 +45,7 @@ offset_bottom = 23.0
 [node name="Level" parent="." instance=ExtResource("4_tbgi4")]
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -35.377213, 0.4885918, -129.45284)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.386097, -0.06109649, 35.964188)
 
 [node name="Shader" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

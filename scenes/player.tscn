@@ -11,7 +11,6 @@ radius = 0.44677734
 height = 2.1638184
 
 [node name="Player" type="CharacterBody3D"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 script = ExtResource("1_3vyb7")
 metadata/is_holding_flashlight = true
 
@@ -186,7 +185,7 @@ script = ExtResource("2_g2els")
 
 [node name="PlayerRayCast" type="RayCast3D" parent="PlayerHead"]
 unique_name_in_owner = true
-transform = Transform3D(2, 0, 0, 0, -8.742278e-08, -2, 0, 2, -8.742278e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 visible = false
 script = ExtResource("4_qlg0r")
 
@@ -201,17 +200,6 @@ unique_name_in_owner = true
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, -0.1220516, -0.25694314)
 cull_mask = 524287
 
-[node name="StaminaBar" parent="." instance=ExtResource("4_dqkch")]
-unique_name_in_owner = true
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 14.0
-offset_top = -35.0
-offset_right = 114.0
-offset_bottom = -8.0
-grow_vertical = 0
-
 [node name="DynamicStepsFX" type="Node3D" parent="."]
 
 [node name="FootstepRayCast" type="RayCast3D" parent="DynamicStepsFX"]
@@ -220,11 +208,13 @@ unique_name_in_owner = true
 [node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="DynamicStepsFX"]
 unique_name_in_owner = true
 
+[node name="StaminaBar" parent="." instance=ExtResource("4_dqkch")]
+unique_name_in_owner = true
+
 [connection signal="idle" from="." to="PlayerModel/AnimationPlayer" method="_on_player_idle"]
 [connection signal="running" from="." to="PlayerModel/AnimationPlayer" method="_on_player_running"]
 [connection signal="running" from="." to="StaminaBar" method="_on_player_running"]
 [connection signal="stop_running" from="." to="StaminaBar" method="_on_player_stop_running"]
 [connection signal="walking" from="." to="PlayerModel/AnimationPlayer" method="_on_player_walking"]
-[connection signal="walking" from="." to="StaminaBar" method="_on_player_walking"]
 
 [editable path="PlayerModel"]

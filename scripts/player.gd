@@ -13,17 +13,17 @@ const JUMP_VELOCITY := 3.0
 const AIR_CONTROL := 0.3
 
 # Stamina
-const MAX_STAMINA := 3.0
+const MAX_STAMINA := 4.0
 const STAMINA_REGEN_IDLE := 1.5
 const STAMINA_REGEN_WALK := 0.6
 const STAMINA_COOLDOWN := 2.5
 
 # Steps
-const FOOTSTEP_WOOD = preload("uid://bvd1qphf1j4n6")
-const FOOTSTEPS_CONCRETE = preload("uid://bqlgtpukdbndc")
-const FOOTSTEPS_RUG = preload("uid://bry4o0sbgdfg5")
-const FOOTSTEPS_STONE = preload("uid://bphq53h1munqe")
-const FOOTSTEPS_TRASH = preload("uid://p8wplstpdre5")
+const FOOTSTEPS_CONCRETE = preload("uid://d4efgdhjjadpg")
+const FOOTSTEPS_RUG = preload("uid://kyowah0jukth")
+const FOOTSTEPS_STONE = preload("uid://bsners5y5yrqn")
+const FOOTSTEPS_WOOD = preload("uid://de8tc16huok00")
+const FOOTSTEPS_TRASH = preload("uid://wv5bj8ylx0hr")
 
 const WALK_STEP_INTERVAL := 0.65
 const RUN_STEP_INTERVAL := 0.3
@@ -54,7 +54,7 @@ func _physics_process(delta: float) -> void:
 
 	if footstep_ray_cast.is_colliding():
 		var collider = footstep_ray_cast.get_collider()
-		print("collider", collider)
+		#print("collider", collider)
 		
 		if collider:
 			if collider.is_in_group("Wood"):
@@ -144,13 +144,14 @@ func play_footsteps() -> void:
 
 	match current_surface:
 		"Wood":
-			footstep_player.stream = FOOTSTEP_WOOD
+			footstep_player.stream = FOOTSTEPS_WOOD
 		"Concrete":
 			footstep_player.stream = FOOTSTEPS_CONCRETE
 		"Rug":
 			footstep_player.stream = FOOTSTEPS_RUG
 		"Stone":
 			footstep_player.stream = FOOTSTEPS_STONE
+			footstep_player.volume_db = 80.0
 		"Trash":
 			footstep_player.stream = FOOTSTEPS_TRASH
 

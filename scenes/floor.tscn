@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://qcx012607puo"]
+[gd_scene load_steps=10 format=3 uid="uid://qcx012607puo"]
 
 [ext_resource type="Texture2D" uid="uid://80106yeymty4" path="res://textures/grass/grass1.png" id="1_ukw5w"]
 
@@ -25,6 +25,8 @@ size = Vector3(1, 1, 6)
 
 [sub_resource type="BoxMesh" id="BoxMesh_7525o"]
 size = Vector3(1, 1, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_poy5y"]
 
 [node name="Floor" type="StaticBody3D"]
 
@@ -131,3 +133,7 @@ mesh = SubResource("BoxMesh_3lc0u")
 [node name="TopWall" type="MeshInstance3D" parent="House/FrontStairs/RailRight"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.433801, -5.1137486)
 mesh = SubResource("BoxMesh_7525o")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.289001, 1.0022813, 0)
+mesh = SubResource("BoxMesh_poy5y")
