@@ -1,0 +1,140 @@
+[gd_scene load_steps=12 format=4 uid="uid://nq8cnks4mys2"]
+
+[ext_resource type="Script" uid="uid://ckaoxvniydw30" path="res://scripts/flashlight.gd" id="1_0ywi5"]
+[ext_resource type="PackedScene" uid="uid://dgoixucklmgei" path="res://scenes/models/flashlight/scene.gltf" id="1_lkaa1"]
+[ext_resource type="PackedScene" uid="uid://cddgk5lh4wcvj" path="res://scenes/flashlight_battery.tscn" id="3_bh8a8"]
+[ext_resource type="AudioStream" uid="uid://r70hetqugp12" path="res://audios/flashlight_toggle.mp3" id="4_bis5n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ywi5"]
+resource_name = "Material"
+cull_mode = 2
+albedo_color = Color(0.08227101, 0.08227101, 0.08227101, 1)
+roughness = 0.99880666
+z_clip_scale = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bh8a8"]
+resource_name = "Material.002"
+cull_mode = 2
+albedo_color = Color(0.41771787, 0.41771787, 0.41771787, 1)
+roughness = 0.967437
+emission = Color(0.9930893, 1, 0.7848091, 1)
+emission_energy_multiplier = 10.0
+z_clip_scale = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o7kai"]
+resource_name = "Material.002"
+cull_mode = 2
+albedo_color = Color(0.41771787, 0.41771787, 0.41771787, 1)
+roughness = 0.967437
+emission_enabled = true
+emission = Color(0.9930893, 1, 0.7848091, 1)
+z_clip_scale = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b5mm0"]
+resource_name = "Material.002"
+cull_mode = 2
+albedo_color = Color(0.41771787, 0.41771787, 0.41771787, 1)
+roughness = 0.967437
+emission = Color(0.9930893, 1, 0.7848091, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ce377"]
+_surfaces = [{
+"aabb": AABB(-1.1101922, -1.1101922, 8.670725, 2.2203844, 2.2203844, 1e-05),
+"format": 34896613377,
+"index_count": 42,
+"index_data": PackedByteArray("AAABAAIAAgADAAAAAgAEAAMABAAFAAMABAAGAAUABgAHAAUABgAIAAcACAAJAAcACAAKAAkACgALAAkACgAMAAsADAANAAsADAAOAA0ADgAPAA0A"),
+"name": "Material.002",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("vgkDTwAAAAAAAP9/AAAAAL4J+7AAAAAAfSV9JQAAAAB9JYHaAAAAAANPvgkAAAAAA09A9gAAAAD/fwAAAAAAAP9///8AAAAA+7C+CQAAAAD7sED2AAAAAIHafSUAAAAAgdqB2gAAAABA9gNPAAAAAED2+7AAAAAA////fwAAAAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_nm88x"]
+resource_name = "Sketchfab_Scene_Cylinder_Material_002_0"
+_surfaces = [{
+"aabb": AABB(-1.1101922, -1.1101922, 8.670725, 2.2203844, 2.2203844, 1e-05),
+"attribute_data": PackedByteArray("xg8GLM0L/z/GD/lTFxsXGxcb6GQGLMYPBiw4cP8/zQv/PzF0+VPGD/lTOHDoZBcb6GToZDhwBiw4cPlTMXT/Pw=="),
+"format": 34896613399,
+"index_count": 42,
+"index_data": PackedByteArray("AAABAAIAAgADAAAAAgAEAAMABAAFAAMABAAGAAUABgAHAAUABgAIAAcACAAJAAcACAAKAAkACgALAAkACgAMAAsADAANAAsADAAOAA0ADgAPAA0A"),
+"material": SubResource("StandardMaterial3D_b5mm0"),
+"name": "Material.002",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("vgkDTwAA/n8AAP9/AAD+f74J+7AAAP5/fSV9JQAA/n99JYHaAAD+fwNPvgkAAP5/A09A9gAA/n//fwAAAAD+f/9///8AAP5/+7C+CQAA/n/7sED2AAD+f4HafSUAAP5/gdqB2gAA/n9A9gNPAAD+f0D2+7AAAP5/////fwAA/n//f////3////9/////f////3////9/////f////3////9/////f////3////9/////f////3////9/////f///")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_ce377")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bis5n"]
+resource_name = "Material.001"
+cull_mode = 2
+albedo_color = Color(0.68353426, 0.04813709, 0.11438863, 1)
+roughness = 0.9789977
+z_clip_scale = 0.8
+
+[node name="Flashlight" type="Node3D"]
+transform = Transform3D(0.06, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0, 0, 0)
+script = ExtResource("1_0ywi5")
+
+[node name="FlashlightModel" type="Node3D" parent="."]
+transform = Transform3D(-2.1855694e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.1855694e-08, 0, 0, 0)
+
+[node name="Sketchfab_Scene" parent="FlashlightModel" instance=ExtResource("1_lkaa1")]
+
+[node name="3a09923d70e844eb959bea49ab185a0e_fbx" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model" index="0"]
+transform = Transform3D(0.01, 0, 0, 0, -4.3711387e-10, -0.01, 0, 0.01, -4.3711387e-10, 0, 0, 0)
+
+[node name="Cylinder" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode" index="0"]
+transform = Transform3D(-4.3711384e-06, -4.3711393e-06, 100, -100, -4.371139e-06, -4.371139e-06, 4.3711393e-06, -100, -4.371139e-06, 0, 100, 0)
+
+[node name="Cylinder_Material_0" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder" index="0"]
+layers = 2
+material_override = SubResource("StandardMaterial3D_0ywi5")
+
+[node name="Cylinder_Material_002_0" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder" index="1"]
+layers = 2
+material_override = SubResource("StandardMaterial3D_bh8a8")
+
+[node name="FlashlightLens" type="MeshInstance3D" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder/Cylinder_Material_002_0" index="0"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
+visible = false
+layers = 2
+material_override = SubResource("StandardMaterial3D_o7kai")
+mesh = SubResource("ArrayMesh_nm88x")
+skeleton = NodePath("")
+
+[node name="Cylinder_Material_001_0" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder" index="2"]
+layers = 2
+material_override = SubResource("StandardMaterial3D_bis5n")
+
+[node name="FlashLightBeam" type="SpotLight3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5732456, -4.6571617)
+visible = false
+light_cull_mask = 4294967289
+shadow_caster_mask = 4293918721
+spot_range = 10.0
+spot_angle = 20.0
+
+[node name="FlashlightBattery" parent="." instance=ExtResource("3_bh8a8")]
+unique_name_in_owner = true
+visible = false
+
+[node name="ToggleFlashlightFX" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_bis5n")
+
+[node name="FlashLightRayCast" type="RayCast3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1.9106857e-15, -4.371139e-08, -1, -1, -4.371139e-08, 5.82539e-22, -4.371139e-08, 1, -4.371139e-08, 0, 0.48464325, -3.8498344)
+hit_from_inside = true
+
+[connection signal="being_used" from="." to="FlashlightBattery" method="_on_flashlight_being_used"]
+
+[editable path="FlashlightModel/Sketchfab_Scene"]

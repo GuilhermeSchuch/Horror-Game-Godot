@@ -44,9 +44,6 @@ offset_bottom = 23.0
 
 [node name="Level" parent="." instance=ExtResource("4_tbgi4")]
 
-[node name="Player" parent="." instance=ExtResource("3_sugp2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.386097, -0.06109649, 35.964188)
-
 [node name="Shader" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 visible = false
@@ -55,3 +52,6 @@ visible = false
 material = SubResource("ShaderMaterial_tbgi4")
 offset_right = 2532.0
 offset_bottom = 1665.0
+
+[node name="Player" parent="." instance=ExtResource("3_sugp2")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -28.602459, 0, -119.09785)

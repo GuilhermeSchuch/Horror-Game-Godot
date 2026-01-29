@@ -93,27 +93,31 @@ transform = Transform3D(0.01, 0, 0, 0, -4.3711387e-10, -0.01, 0, 0.01, -4.371138
 transform = Transform3D(-4.3711384e-06, -4.3711393e-06, 100, -100, -4.371139e-06, -4.371139e-06, 4.3711393e-06, -100, -4.371139e-06, 0, 100, 0)
 
 [node name="Cylinder_Material_0" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder" index="0"]
+layers = 2
 material_override = SubResource("StandardMaterial3D_0ywi5")
 
 [node name="Cylinder_Material_002_0" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder" index="1"]
+layers = 2
 material_override = SubResource("StandardMaterial3D_bh8a8")
 
 [node name="FlashlightLens" type="MeshInstance3D" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder/Cylinder_Material_002_0" index="0"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
 visible = false
+layers = 2
 material_override = SubResource("StandardMaterial3D_o7kai")
 mesh = SubResource("ArrayMesh_nm88x")
 skeleton = NodePath("")
 
 [node name="Cylinder_Material_001_0" parent="FlashlightModel/Sketchfab_Scene/Sketchfab_model/3a09923d70e844eb959bea49ab185a0e_fbx/RootNode/Cylinder" index="2"]
+layers = 2
 material_override = SubResource("StandardMaterial3D_bis5n")
 
 [node name="FlashLightBeam" type="SpotLight3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5732456, -4.6571617)
 visible = false
-shadow_enabled = true
+light_cull_mask = 4294967289
 shadow_caster_mask = 4293918721
 spot_range = 10.0
 spot_angle = 20.0
@@ -125,6 +129,11 @@ visible = false
 [node name="ToggleFlashlightFX" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("4_bis5n")
+
+[node name="FlashLightRayCast" type="RayCast3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1.9106857e-15, -4.371139e-08, -2, -1, -4.371139e-08, -5.2898766e-22, -4.371139e-08, 1, -8.742278e-08, 0, 0.48464325, -3.6676753)
+hit_from_inside = true
 
 [connection signal="being_used" from="." to="FlashlightBattery" method="_on_flashlight_being_used"]
 

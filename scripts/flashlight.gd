@@ -1,5 +1,7 @@
 extends Node3D
 
+@export var max_distance := 12.0
+
 signal being_used(battery: float)
 
 const MAX_BATTERY := 100.0
@@ -15,6 +17,21 @@ func _process(delta: float) -> void:
 
 	if flashlight_on:
 		drain_battery(delta)
+		
+		%FlashLightRayCast.target_position = Vector3.FORWARD * max_distance
+		%FlashLightRayCast.force_raycast_update()
+
+		if %FlashLightRayCast.is_colliding():
+			var obj_colliding = %FlashLightRayCast.get_collider().has_meta("DisableShadow")
+			print(%FlashLightRayCast.get_collider())
+			#print(obj_colliding)
+			
+			if obj_colliding:
+				print("COLLIDING: ", obj_colliding)
+				var hit_dist = %FlashLightRayCast.global_position.distance_to(%FlashLightRayCast.get_collision_point())
+				%FlashLightBeam.spot_range = hit_dist
+		else:
+			%FlashLightBeam.spot_range = max_distance
 
 
 func toggle_flashlight() -> void:

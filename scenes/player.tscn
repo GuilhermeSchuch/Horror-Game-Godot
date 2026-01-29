@@ -11,6 +11,9 @@ radius = 0.44677734
 height = 2.1638184
 
 [node name="Player" type="CharacterBody3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_3vyb7")
 metadata/is_holding_flashlight = true
 
