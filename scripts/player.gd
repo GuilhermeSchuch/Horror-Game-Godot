@@ -6,6 +6,9 @@ extends CharacterBody3D
 @export var pitch_min := 0.95
 @export var pitch_max := 1.05
 
+var stairs_code_instance = preload("uid://bddm53mesxp1b").new()
+@onready var camera_shake = %ShakeOffset
+
 # Movement
 const WALK_SPEED := 1
 const SPRINT_SPEED := 2.5
@@ -13,7 +16,7 @@ const JUMP_VELOCITY := 3.0
 const AIR_CONTROL := 0.3
 
 # Stamina
-const MAX_STAMINA := 4.0
+const MAX_STAMINA := 5.0
 const STAMINA_REGEN_IDLE := 1.5
 const STAMINA_REGEN_WALK := 0.6
 const STAMINA_COOLDOWN := 2.5
@@ -32,23 +35,26 @@ var step_timer := 0.0
 var current_surface := ""
 
 signal running(stamina: float)
+signal running_on_stairs
 signal walking(stamina: float)
 signal idle(stamina: float)
 signal stop_running(stamina: float)
+signal falling_down_stairs
 
 var player_speed := WALK_SPEED
 var stamina := MAX_STAMINA
 var regen_timer := 0.0
 var is_running := false
+var is_jumscare_played := false
+var camera_default_transform: Transform3D
 
-func _physics_process(delta: float) -> void:	
+func _ready():
+	var camera_default_transform = %MainCamera.transform
+
+func _physics_process(delta: float) -> void:
 	# Gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
-	# Jump (disabled if exhausted)
-	#if Input.is_action_just_pressed("jump") and is_on_floor() and stamina > 0:
-		#velocity.y = JUMP_VELOCITY
 
 	var surface := ""
 
@@ -67,6 +73,39 @@ func _physics_process(delta: float) -> void:
 				surface = "Stone"
 			elif collider.is_in_group("Trash"):
 				surface = "Trash"
+			
+			if collider.is_in_group("Stairs") and is_running:
+				var stairs = collider.name
+
+				if stairs == "FirstFloorStairs":
+					var should_play_jumpscare: bool = stairs_code_instance.play_jumpscare()
+
+					if should_play_jumpscare and !is_jumscare_played:
+						is_jumscare_played = true
+						emit_signal("falling_down_stairs")
+
+						%PlayerModel.visible = false
+
+						self.set_meta("can_player_move", false)
+						self.set_meta("can_camera_move", false)
+
+						camera_shake.start_jumpscare_shake()
+
+						var target_pos = Vector3(-28.92732, -0.17765, -126.6113)
+						var tween = create_tween()
+						tween.tween_property(self, "position", target_pos, 1.3)
+						tween.set_trans(Tween.TRANS_SINE)
+						tween.set_ease(Tween.EASE_OUT)
+
+						await get_tree().create_timer(1.5).timeout
+
+						self.set_meta("can_player_move", true)
+						self.set_meta("can_camera_move", true)
+						%PlayerFlashlight.visible = false
+						
+						await get_tree().create_timer(5).timeout
+						%PlayerFlashlight.visible = true
+
 	
 	if surface != "" and surface != current_surface:
 		current_surface = surface
@@ -85,21 +124,22 @@ func _physics_process(delta: float) -> void:
 
 	# Sprint logic
 	is_running = wants_to_sprint and stamina > 0 and direction != Vector3.ZERO
-
-	if is_running:
-		player_speed = SPRINT_SPEED
-		stamina -= delta
-		stamina = max(stamina, 0)
-		regen_timer = STAMINA_COOLDOWN
-		emit_signal("running", stamina)
-	else:
-		player_speed = WALK_SPEED
-		
-		# Cheks if player is idle or walking
-		if direction != Vector3.ZERO:
-			emit_signal("walking", stamina)
+	
+	if self.get_meta("can_player_move"):
+		if is_running:
+			player_speed = SPRINT_SPEED
+			stamina -= delta
+			stamina = max(stamina, 0)
+			regen_timer = STAMINA_COOLDOWN
+			emit_signal("running", stamina)
 		else:
-			emit_signal("stop_running", stamina)
+			player_speed = WALK_SPEED
+			
+			# Cheks if player is idle or walking
+			if direction != Vector3.ZERO:
+				emit_signal("walking", stamina)
+			else:
+				emit_signal("stop_running", stamina)
 
 		# Cooldown before regen
 		if regen_timer > 0:
@@ -112,7 +152,7 @@ func _physics_process(delta: float) -> void:
 			emit_signal("stop_running", stamina)
 
 	# Movement
-	if direction:
+	if direction and self.get_meta("can_player_move"):
 		velocity.x = direction.x * player_speed * control
 		velocity.z = direction.z * player_speed * control
 	else:
@@ -121,7 +161,7 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, player_speed * control)
 	
 	# Footsteps logic
-	var is_moving := direction != Vector3.ZERO and is_on_floor()
+	var is_moving :bool = direction != Vector3.ZERO and is_on_floor() and self.get_meta("can_player_move")
 
 	if is_moving:
 		step_timer -= delta
@@ -135,6 +175,7 @@ func _physics_process(delta: float) -> void:
 		step_timer = 0.0
 
 	move_and_slide()
+	
 
 func play_footsteps() -> void:
 	if current_surface == "":

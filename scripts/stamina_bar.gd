@@ -1,8 +1,8 @@
 extends ProgressBar
 
 func _ready():
-	max_value = 4.0
-	value = 4.0
+	max_value = 5.0
+	value = 5.0
 	visible = false
 
 

@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var max_distance := 12.0
+@onready var player_flashlight: SpotLight3D = $"../../../../../PlayerHead/CameraPivot/ShakeOffset/SpringArm3D/MainCamera/PlayerFlashlight"
 
 signal being_used(battery: float)
 
@@ -17,21 +17,6 @@ func _process(delta: float) -> void:
 
 	if flashlight_on:
 		drain_battery(delta)
-		
-		%FlashLightRayCast.target_position = Vector3.FORWARD * max_distance
-		%FlashLightRayCast.force_raycast_update()
-
-		if %FlashLightRayCast.is_colliding():
-			var obj_colliding = %FlashLightRayCast.get_collider().has_meta("DisableShadow")
-			print(%FlashLightRayCast.get_collider())
-			#print(obj_colliding)
-			
-			if obj_colliding:
-				print("COLLIDING: ", obj_colliding)
-				var hit_dist = %FlashLightRayCast.global_position.distance_to(%FlashLightRayCast.get_collision_point())
-				%FlashLightBeam.spot_range = hit_dist
-		else:
-			%FlashLightBeam.spot_range = max_distance
 
 
 func toggle_flashlight() -> void:
@@ -41,9 +26,10 @@ func toggle_flashlight() -> void:
 	%ToggleFlashlightFX.play()
 
 	flashlight_on = !flashlight_on
-	%FlashLightBeam.visible = flashlight_on
+	player_flashlight.visible = flashlight_on
 	%FlashlightLens.visible = flashlight_on
 	%FlashlightBattery.visible = flashlight_on
+
 
 func drain_battery(delta: float) -> void:
 	battery -= DRAIN_PER_SECOND * delta
@@ -53,6 +39,11 @@ func drain_battery(delta: float) -> void:
 
 	if battery <= MIN_BATTERY:
 		flashlight_on = false
-		%FlashLightBeam.visible = false
+		player_flashlight.visible = false
 		%FlashlightLens.visible = false
 		# %FlashlightBattery.visible = false
+
+
+func _on_player_falling_down_stairs() -> void:
+	await get_tree().create_timer(3).timeout
+	%FlickerFX.play()

@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.5", "Forward Plus")
 run/max_fps=60
 config/icon="res://icon.svg"
 
+[autoload]
+
+AudioManager="*res://scenes/audio_manager.tscn"
+
 [display]
 
 window/size/resizable=false
@@ -31,6 +35,7 @@ Concrete=""
 Rug=""
 Stone=""
 Trash=""
+Stairs=""
 
 [input]
 
