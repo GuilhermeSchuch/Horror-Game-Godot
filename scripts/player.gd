@@ -15,6 +15,8 @@ const SPRINT_SPEED := 2.5
 const JUMP_VELOCITY := 3.0
 const AIR_CONTROL := 0.3
 
+var last_y_position: float
+
 # Stamina
 const MAX_STAMINA := 5.0
 const STAMINA_REGEN_IDLE := 1.5
@@ -50,11 +52,15 @@ var camera_default_transform: Transform3D
 
 func _ready():
 	var camera_default_transform = %MainCamera.transform
+	last_y_position = global_position.y
 
 func _physics_process(delta: float) -> void:
 	# Gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	
+	var going_down = global_position.y < last_y_position
+	last_y_position = global_position.y
 
 	var surface := ""
 
@@ -74,7 +80,7 @@ func _physics_process(delta: float) -> void:
 			elif collider.is_in_group("Trash"):
 				surface = "Trash"
 			
-			if collider.is_in_group("Stairs") and is_running:
+			if collider.is_in_group("Stairs") and is_running and going_down:
 				var stairs = collider.name
 
 				if stairs == "FirstFloorStairs":
@@ -102,6 +108,7 @@ func _physics_process(delta: float) -> void:
 						self.set_meta("can_player_move", true)
 						self.set_meta("can_camera_move", true)
 						%PlayerFlashlight.visible = false
+						%PlayerModel.visible = true
 						
 						await get_tree().create_timer(5).timeout
 						%PlayerFlashlight.visible = true
@@ -175,7 +182,7 @@ func _physics_process(delta: float) -> void:
 		step_timer = 0.0
 
 	move_and_slide()
-	
+
 
 func play_footsteps() -> void:
 	if current_surface == "":
