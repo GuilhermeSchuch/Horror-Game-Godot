@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://8fdgnkoupimc"]
+[gd_scene load_steps=14 format=3 uid="uid://8fdgnkoupimc"]
 
 [ext_resource type="Script" uid="uid://c85t61yf7fj" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://c352nlwcgy0xs" path="res://scripts/camera.gd" id="2_g2els"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c6pfqa70l7b2m" path="res://scenes/stamina_bar.tscn" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://dcngkbrv0pmr5" path="res://scripts/player_ray_cast.gd" id="4_qlg0r"]
 [ext_resource type="Script" uid="uid://2ir3f426bwah" path="res://scripts/shake_offset.gd" id="5_tuyoq"]
+[ext_resource type="PackedScene" uid="uid://b1mi3gsd2fgpo" path="res://scenes/cutscene_manager.tscn" id="7_fjrip"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
 radius = 0.44677734
@@ -58,6 +59,70 @@ func start_jumpscare_shake():
 	shake_timer = shake_duration
 "
 
+[sub_resource type="Animation" id="Animation_smehm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerHead/CameraPivot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerHead/CameraPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ur7pv"]
+_data = {
+&"RESET": SubResource("Animation_smehm")
+}
+
+[sub_resource type="Animation" id="Animation_fjrip"]
+length = 12.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerHead/CameraPivot:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3.5, 8, 12),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerHead/CameraPivot:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3.5, 8, 12),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.7853982, 0), Vector3(0, -0.43900275, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_smehm"]
+_data = {
+&"player_waking_up": SubResource("Animation_fjrip")
+}
+
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 collision_layer = 2
@@ -66,6 +131,7 @@ script = ExtResource("1_3vyb7")
 metadata/is_holding_flashlight = true
 metadata/can_camera_move = true
 metadata/can_player_move = true
+metadata/is_player_in_cutscene = true
 
 [node name="PlayerModel" parent="." instance=ExtResource("2_tuyoq")]
 unique_name_in_owner = true
@@ -87,6 +153,7 @@ script = ExtResource("4_qlg0r")
 
 [node name="CameraPivot" type="Node3D" parent="PlayerHead"]
 unique_name_in_owner = true
+transform = Transform3D(0.9999995, 0, 0, 0, 1, 0, 0, 0, 0.9999995, 0, 0, 0)
 script = SubResource("GDScript_fjrip")
 
 [node name="ShakeOffset" type="Node3D" parent="PlayerHead/CameraPivot"]
@@ -99,7 +166,7 @@ spring_length = 0.0
 
 [node name="MainCamera" type="Camera3D" parent="PlayerHead/CameraPivot/ShakeOffset/SpringArm3D"]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, -0.1220516, -0.25694314)
+transform = Transform3D(-2.0000002, 0, 3.019916e-07, 0, 1.9999999, 0, -3.0199163e-07, 0, -2, 0, -0.1220516, -0.25694314)
 cull_mask = 524287
 
 [node name="PlayerFlashlight" type="SpotLight3D" parent="PlayerHead/CameraPivot/ShakeOffset/SpringArm3D/MainCamera"]
@@ -119,6 +186,13 @@ unique_name_in_owner = true
 [node name="StaminaBar" parent="." instance=ExtResource("4_dqkch")]
 unique_name_in_owner = true
 
+[node name="CutsceneManager" parent="." instance=ExtResource("7_fjrip")]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_ur7pv"),
+&"Player": SubResource("AnimationLibrary_smehm")
+}
+
 [connection signal="falling_down_stairs" from="." to="PlayerModel/root_character_deform/Skeleton3D/PlayerHandAttachment/Flashlight" method="_on_player_falling_down_stairs"]
 [connection signal="idle" from="." to="PlayerModel/AnimationPlayer" method="_on_player_idle"]
 [connection signal="running" from="." to="PlayerModel/AnimationPlayer" method="_on_player_running"]
@@ -127,5 +201,6 @@ unique_name_in_owner = true
 [connection signal="stop_running" from="." to="StaminaBar" method="_on_player_stop_running"]
 [connection signal="walking" from="." to="PlayerModel/AnimationPlayer" method="_on_player_walking"]
 [connection signal="walking" from="." to="PlayerHead" method="_on_player_walking"]
+[connection signal="animation_finished" from="CutsceneManager" to="." method="_on_cutscene_manager_animation_finished"]
 
 [editable path="PlayerModel"]

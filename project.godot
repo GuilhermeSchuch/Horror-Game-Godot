@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 AudioManager="*res://scenes/audio_manager.tscn"
+CutsceneManager="*res://scenes/cutscene_manager.tscn"
 
 [display]
 

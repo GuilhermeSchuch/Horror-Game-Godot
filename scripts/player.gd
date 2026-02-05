@@ -9,6 +9,8 @@ extends CharacterBody3D
 var stairs_code_instance = preload("uid://bddm53mesxp1b").new()
 @onready var camera_shake = %ShakeOffset
 
+@onready var anim_player: AnimationPlayer = %CutsceneManager
+
 # Movement
 const WALK_SPEED := 1
 const SPRINT_SPEED := 2.5
@@ -53,11 +55,16 @@ var camera_default_transform: Transform3D
 func _ready():
 	var camera_default_transform = %MainCamera.transform
 	last_y_position = global_position.y
+	CutsceneManager.play_cutscene(anim_player)
 
 func _physics_process(delta: float) -> void:
 	# Gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	
+	if get_meta("is_player_in_cutscene"):
+		set_meta("can_camera_move", false)
+		set_meta("can_player_move", false)
 	
 	var going_down = global_position.y < last_y_position
 	last_y_position = global_position.y
@@ -205,3 +212,19 @@ func play_footsteps() -> void:
 
 	footstep_player.pitch_scale = randf_range(pitch_min, pitch_max)
 	footstep_player.play()
+
+
+func move_player(target_pos: Vector3, duration: float) -> void:
+	var tween = create_tween()
+	
+	tween.tween_property(self, "position", target_pos, duration)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+
+
+func _on_cutscene_manager_animation_finished(anim_name: StringName) -> void:
+	set_meta("can_camera_move", true)
+	set_meta("can_player_move", true)
+	set_meta("is_player_in_cutscene", false)
+	
+	move_player(Vector3(-33.534, 3.48, -131.844), 1.3)

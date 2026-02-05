@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1mi3gsd2fgpo"]
+
+[ext_resource type="Script" uid="uid://bcr15m0mx7ic4" path="res://scripts/cutscene_manager.gd" id="1_af8s6"]
+
+[node name="CutsceneManager" type="AnimationPlayer"]
+script = ExtResource("1_af8s6")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

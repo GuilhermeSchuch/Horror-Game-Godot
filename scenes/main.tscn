@@ -51,7 +51,7 @@ offset_right = 2532.0
 offset_bottom = 1665.0
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -36.26518, 3.4128523, -126.08379)
+transform = Transform3D(-2.1855694e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.1855694e-08, -34.25923, 3.480418, -131.84387)
 
 [node name="Level" parent="." instance=ExtResource("4_tbgi4")]
 
